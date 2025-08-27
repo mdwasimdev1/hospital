@@ -3,6 +3,26 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HospitalController;
+
+Route::get('/add/hospital', [HospitalController::class, 'addHospital'])->name('add.hospital');
+Route::post('/store/hospital', [HospitalController::class, 'storeHospital'])->name('hospitals.store');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Auth pages
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -16,7 +36,7 @@ Route::middleware(['jwt.cookie'])->group(function () {
         $user = auth('api')->user();
 
         if (!$user) {
-            return redirect()->route('login'); 
+            return redirect()->route('login');
         }
         return $user->role === 'admin'
         ? redirect()->route('admin.dashboard')

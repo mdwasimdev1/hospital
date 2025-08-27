@@ -1,6 +1,14 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="en">
 
-@section('content')
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ $title ?? 'Hospital' }}</title>
+    @vite('resources/css/app.css')
+</head>
+
+<body class="bg-gray-100">
 <div class="flex items-center justify-center h-screen">
     <div class="bg-white p-6 rounded shadow w-96">
         <h1 class="text-2xl font-bold mb-4">Login</h1>
@@ -29,4 +37,8 @@
         </form>
     </div>
 </div>
-@endsection
+
+@vite('resources/js/app.js')
+</body>
+
+</html>

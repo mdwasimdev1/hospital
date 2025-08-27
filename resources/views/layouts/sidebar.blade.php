@@ -33,7 +33,7 @@
                     </button>
                     <div id="userMenu" class="hidden ml-6 mt-1 space-y-1 dropdown">
                         <a href="#" class="block px-4 py-2 rounded hover:bg-gray-700">All Hospitals</a>
-                        <a href="#" class="block px-4 py-2 rounded hover:bg-gray-700">Add Hospital</a>
+                        <a href="/add/hospital" class="block px-4 py-2 rounded hover:bg-gray-700">Add Hospital</a>
                     </div>
                 </div>
 
