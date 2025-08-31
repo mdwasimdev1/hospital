@@ -32,8 +32,8 @@
                         </svg>
                     </button>
                     <div id="userMenu" class="hidden ml-6 mt-1 space-y-1 dropdown">
-                        <a href="#" class="block px-4 py-2 rounded hover:bg-gray-700">All Hospitals</a>
-                        <a href="/add/hospital" class="block px-4 py-2 rounded hover:bg-gray-700">Add Hospital</a>
+                        <a href="{{ route('hospitals.index') }}" class="block px-4 py-2 rounded hover:bg-gray-700">All Hospitals</a>
+                        <a href="{{ route('hospitals.create') }}" class="block px-4 py-2 rounded hover:bg-gray-700">Add Hospital</a>
                     </div>
                 </div>
 
@@ -52,6 +52,9 @@
                         <a href="#" class="block px-4 py-2 rounded hover:bg-gray-700">Add Doctor</a>
                         <a href="#" class="block px-4 py-2 rounded hover:bg-gray-700">Doctor Chamber</a>
                     </div>
+                </div>
+                <div>
+                    <a href="{{ route('locations.create') }}" class="block px-4 py-2 rounded hover:bg-gray-600">Locations</a>
                 </div>
             </nav>
         </div>
@@ -89,8 +92,8 @@
                         </svg>
                     </button>
                     <div id="mobileUserMenu" class="hidden ml-6 mt-1 space-y-1 dropdown">
-                        <a href="#" class="block px-4 py-2 rounded hover:bg-gray-600">All Hospital</a>
-                        <a href="#" class="block px-4 py-2 rounded hover:bg-gray-600">Add Hospital</a>
+                        <a href="{{ route('hospitals.index') }}" class="block px-4 py-2 rounded hover:bg-gray-600">All Hospital</a>
+                        <a href="{{ route('hospitals.create') }}" class="block px-4 py-2 rounded hover:bg-gray-600">Add Hospital</a>
                     </div>
                 </div>
 
@@ -113,19 +116,22 @@
                     </div>
                 </div>
 
+                <div>
+                    <a href="{{ route('locations.create') }}" class="block px-4 py-2 rounded hover:bg-gray-600">Locations</a>
+                </div>
 
             </div>
         </div>
 
         <!-- Main Content -->
-        <div class="">
-            <!-- row -->
-            <div class="container mx-auto">
-                <div class="w-full p-10">
+        <div class="w-full min-h-screen bg-gray-100">
+            <div class="w-full px-4 lg:px-8">
+                <div class="max-w-7xl mx-auto py-8">
                     @yield('content')
                 </div>
             </div>
         </div>
+
     </div>
 
 
