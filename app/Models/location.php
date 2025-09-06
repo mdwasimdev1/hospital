@@ -17,4 +17,8 @@ class location extends Model
         return $this->belongsToMany(Hospital::class)->withPivot('address')->withTimestamps();
     }
 
+    public function specializations()
+    {
+        return $this->hasMany(Specialization::class);
+    }
 }

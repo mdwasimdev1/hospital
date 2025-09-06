@@ -48,13 +48,16 @@
                         </svg>
                     </button>
                     <div id="productMenu" class="hidden ml-6 mt-1 space-y-1 dropdown">
-                        <a href="#" class="block px-4 py-2 rounded hover:bg-gray-700">All Doctors</a>
-                        <a href="#" class="block px-4 py-2 rounded hover:bg-gray-700">Add Doctor</a>
+                        <a href="{{ route('doctors.list') }}" class="block px-4 py-2 rounded hover:bg-gray-700">All Doctors</a>
+                        <a href="{{ route('doctors.create') }}" class="block px-4 py-2 rounded hover:bg-gray-700">Add Doctor</a>
                         <a href="#" class="block px-4 py-2 rounded hover:bg-gray-700">Doctor Chamber</a>
                     </div>
                 </div>
                 <div>
                     <a href="{{ route('locations.create') }}" class="block px-4 py-2 rounded hover:bg-gray-600">Locations</a>
+                </div>
+                <div>
+                    <a href="{{ route('specializations.index') }}" class="block px-4 py-2 rounded hover:bg-gray-600">Specialization</a>
                 </div>
             </nav>
         </div>
@@ -110,14 +113,18 @@
                         </svg>
                     </button>
                     <div id="mobileProductMenu" class="hidden ml-6 mt-1 space-y-1 dropdown">
-                        <a href="#" class="block px-4 py-2 rounded hover:bg-gray-600">All Doctors</a>
-                        <a href="#" class="block px-4 py-2 rounded hover:bg-gray-600">Add Doctor</a>
+                        <a href="{{ route('doctors.list') }}" class="block px-4 py-2 rounded hover:bg-gray-600">All Doctors</a>
+                        <a href="{{ route('doctors.create') }}" class="block px-4 py-2 rounded hover:bg-gray-600">Add Doctor</a>
                         <a href="#" class="block px-4 py-2 rounded hover:bg-gray-600">Doctors chamber</a>
                     </div>
                 </div>
 
                 <div>
                     <a href="{{ route('locations.create') }}" class="block px-4 py-2 rounded hover:bg-gray-600">Locations</a>
+                </div>
+
+                <div>
+                    <a href="{{ route('specializations.index') }}" class="block px-4 py-2 rounded hover:bg-gray-600">Specialization</a>
                 </div>
 
             </div>
