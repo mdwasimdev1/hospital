@@ -8,3 +8,32 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+:root {
+    --color-primary: #111b59;
+    --color-secondary: #23c64c;
+    --color-least: #fc1919;
+  }
+  @layer utilities {
+    .text-primary {
+      color: var(--color-primary);
+    }
+    .bg-primary {
+      background-color: var(--color-primary);
+    }
+
+    .text-secondary {
+      color: var(--color-secondary);
+    }
+    .bg-secondary {
+      background-color: var(--color-secondary);
+    }
+
+    .text-least {
+      color: var(--color-least);
+    }
+    .bg-least {
+      background-color: var(--color-least);
+    }
+  }
+
+

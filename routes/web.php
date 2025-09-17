@@ -3,6 +3,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ChamberController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\HospitalController;
@@ -14,6 +15,17 @@ Route::post('/store/hospital', [HospitalController::class, 'storeHospital'])->na
 
 
 Route::get('/', [FrontendController::class, 'home'])->name('user.home');
+
+
+
+
+
+
+
+
+
+
+
 
 
 Route::middleware(['jwt.cookie', 'role:admin'])->group(function () {
@@ -36,21 +48,18 @@ Route::middleware(['jwt.cookie', 'role:admin'])->group(function () {
     Route::get('/doctors/list', [DoctorController::class, 'doctor_list'])->name('doctors.list');
     Route::get('/doctors/create', [DoctorController::class, 'create'])->name('doctors.create');
     Route::post('/doctors', [DoctorController::class, 'store'])->name('doctors.store');
+
+
+
+
+    Route::get('/chambers/create', [ChamberController::class, 'create'])->name('chambers.create');
+    Route::post('/chambers', [ChamberController::class, 'store'])->name('chambers.store');
+    // Route::get('/doctors-by-location/{location_id}', [DoctorController::class, 'getByLocation']);
+
+
+
+
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // Auth pages
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -74,17 +83,32 @@ Route::middleware(['jwt.cookie'])->group(function () {
     Route::get('/admin/dashboard', function () {
         return view('admin.dashboard');
     })->middleware('role:admin')->name('admin.dashboard');
-
-    // Route::get('/user/dashboard', function () {
-    //     return view('user.dashboard');
-    // })->middleware('role:user')->name('user.dashboard');
-
-    Route::get('/', [FrontendController::class, 'home'])->middleware('role:user')->name('user.dashboard');
-
-    Route::get('/hospitals-{locationName}', [FrontendController::class, 'showHospitalsByLocation'])
-        ->name('hospitals.by.location');
-
-    // Specializations by location slug
-    Route::get('/doctors-{locationName}', [FrontendController::class, 'showSpecializationsByLocation'])
-        ->name('doctors.by.location');
 });
+
+
+Route::get('/', [FrontendController::class, 'home'])->name('user.dashboard');
+
+Route::get('/hospitals-{locationName}', [FrontendController::class, 'showHospitalsByLocation'])
+    ->name('hospitals.by.location');
+
+Route::get('/doctors-{locationName}', [FrontendController::class, 'showSpecializationsByLocation'])
+    ->name('doctors.by.location');
+
+Route::get('/{specializationSlug}-{locationSlug}', [FrontendController::class, 'DoctorsBySpecializationAndLocation'])
+    ->name('specialization.location');
+
+
+Route::get('/{hospitalSlug}-doctor-list-contact', [FrontendController::class, 'HospitalDoctorList'])
+    ->name('hospital.doctor.list');
+
+Route::get('location/{location}/hospital/{hospital}', [FrontendController::class, 'showHospitalDoctors'])->name('hospital.details');
+
+
+
+
+Route::get('/doctor/chamber', [FrontendController::class, 'doctor_chamber'])->name('doctor.chamber');
+
+Route::get('/location/{locationSlug}/specialization/{specializationSlug}/doctors', [FrontendController::class, 'showDoctorsByLocationAndSpecialization'])
+    ->name('doctors.by.location.specialization');
+
+Route::get('/doctors/{doctor}', [FrontendController::class, 'show'])->name('doctors.show');

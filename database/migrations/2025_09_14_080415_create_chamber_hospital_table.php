@@ -11,9 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('role')->default('user'); // 'admin' or 'user'
+        Schema::create('chamber_hospital', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('chamber_id')->constrained();
+            $table->foreignId('hospital_id')->constrained();
+            $table->string('address');
+            $table->timestamps();
         });
+
     }
 
     /**
@@ -21,8 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('chamber_hospital');
     }
 };

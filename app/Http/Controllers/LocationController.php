@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\location;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class LocationController extends Controller
 {
@@ -26,6 +27,7 @@ class LocationController extends Controller
         // লোকেশন তৈরি করা
         Location::create([
             'name' => $request->name,
+            'slug' => Str::slug($request->name),
         ]);
 
         // সফল হলে redirect এবং success message দেখানো

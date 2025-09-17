@@ -10,10 +10,10 @@
 
 <body class="bg-gray-100">
 
-    <div class="md:flex">
+    <div class="md:flex ">
         <!-- Sidebar (Desktop) -->
         <div id="sidebar"
-            class="hidden lg:flex lg:flex-col lg:w-64 lg:h-screen bg-gray-800 text-white transition-all duration-300">
+            class="hidden lg:flex lg:flex-col lg:w-64 lg:h-screen bg-gray-800 text-white transition-all duration-300 ">
             <div class="p-4 text-2xl font-bold border-b border-gray-700">
                 Hospital
             </div>
@@ -50,7 +50,7 @@
                     <div id="productMenu" class="hidden ml-6 mt-1 space-y-1 dropdown">
                         <a href="{{ route('doctors.list') }}" class="block px-4 py-2 rounded hover:bg-gray-700">All Doctors</a>
                         <a href="{{ route('doctors.create') }}" class="block px-4 py-2 rounded hover:bg-gray-700">Add Doctor</a>
-                        <a href="#" class="block px-4 py-2 rounded hover:bg-gray-700">Doctor Chamber</a>
+                        <a href="{{ route('chambers.create') }}" class="block px-4 py-2 rounded hover:bg-gray-700">Doctor Chamber</a>
                     </div>
                 </div>
                 <div>

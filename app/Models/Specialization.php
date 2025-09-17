@@ -8,7 +8,7 @@ class Specialization extends Model
 {
 
 
-    protected $fillable = ['name', 'location_id'];
+    protected $fillable = ['name', 'slug', 'location_id'];
 
     public function location()
     {

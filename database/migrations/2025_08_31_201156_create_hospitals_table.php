@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('hospitals', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('slug')->nullable();
             $table->string('contact');
             $table->string('image')->nullable(); // optional image
             $table->timestamps();

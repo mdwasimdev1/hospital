@@ -16,18 +16,24 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('phone');
+
             $table->foreignId('hospital_id')->constrained()->onDelete('cascade');
             $table->foreignId('location_id')->constrained()->onDelete('cascade');
             $table->foreignId('specialization_id')->constrained()->onDelete('cascade');
+
             $table->string('designation');
-            $table->unsignedBigInteger('address_id');
-            $table->string('chamber_name');
-            $table->text('chamber_address');
-            $table->string('photo')->nullable();
+            $table->string('photo')->nullable(); // Main doctor profile image
+
+            // ✅ New fields:
+            $table->text('about')->nullable();                // Doctor's biography or intro
+            $table->text('meta_title')->nullable();           // SEO title tag
+            $table->text('meta_description')->nullable();     // SEO description tag
+            $table->json('preview_images')->nullable();       // Store multiple image filenames/paths
+            $table->json('video_links')->nullable();          // Store multiple video URLs
+
             $table->timestamps();
-
-
         });
+
     }
 
 

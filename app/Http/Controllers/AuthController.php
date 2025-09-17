@@ -29,6 +29,10 @@ class AuthController extends Controller
         }
         $user = JWTAuth::setToken($token)->toUser();
 
+        if ($user->role !== 'admin') {
+            return back()->withErrors(['email' => 'Access denied. Only admins can login.'])->withInput();
+        }
+
         // Cookie for JWT
         $cookie = cookie(
             'token',        // cookie name
@@ -42,13 +46,15 @@ class AuthController extends Controller
             'lax'    // raw, sameSite
         );
 
-        // Redirect by role
-        $redirectTo = $user->role === 'admin'
-            ? route('admin.dashboard')
-            : route('user.dashboard');
+        return redirect()->route('admin.dashboard')->withCookie($cookie);
 
-        // Use cookie() method with response object explicitly
-        return redirect($redirectTo)->withCookie($cookie);
+        // // Redirect by role
+        // $redirectTo = $user->role === 'admin'
+        //     ? route('admin.dashboard')
+        //     : route('user.dashboard');
+
+        // // Use cookie() method with response object explicitly
+        // return redirect($redirectTo)->withCookie($cookie);
     }
 
     public function logout(Request $request)

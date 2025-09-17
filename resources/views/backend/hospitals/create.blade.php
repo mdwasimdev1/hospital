@@ -60,6 +60,18 @@
             {{-- Address Fields --}}
             <div id="locationAddressFields" class="space-y-4 mt-4"></div>
 
+            <div class="mb-4">
+                <label for="meta_title" class="block text-sm font-medium">Meta Title</label>
+                <input type="text" name="meta_title" id="meta_title" class="w-full border px-3 py-2 rounded"
+                    value="{{ old('meta_title', $hospital->meta_title ?? '') }}">
+            </div>
+
+            <div class="mb-4">
+                <label for="meta_description" class="block text-sm font-medium">Meta Description</label>
+                <textarea name="meta_description" id="meta_description" class="w-full border px-3 py-2 rounded" rows="4">{{ old('meta_description', $hospital->meta_description ?? '') }}</textarea>
+            </div>
+
+
             <div class="mb-4 mt-6">
                 <label class="block mb-1 font-semibold">Image</label>
                 <input type="file" name="image" accept="image/*" class="w-full border px-3 py-2 rounded">

@@ -10,14 +10,18 @@ class Doctor extends Model
         'name',
         'email',
         'phone',
-        'specialization_id',
         'hospital_id',
-        'designation',
         'location_id',
-        'chamber_name',
-        'chamber_address',
+        'specialization_id',
+        'designation',
         'photo',
+        'about',
+        'meta_title',
+        'meta_description',
+        'preview_images',
+        'video_links',
     ];
+
 
 
 
@@ -36,4 +40,8 @@ class Doctor extends Model
         return $this->belongsTo(Location::class);
     }
 
+    public function chambers()
+    {
+        return $this->hasMany(Chamber::class);
+    }
 }

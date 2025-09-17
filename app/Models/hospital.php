@@ -10,11 +10,32 @@ class hospital extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'address', 'contact', 'image'];
+    protected $fillable = [
+        'name',
+        'slug',
+        'address',
+        'contact',
+        'image',
+        'meta_title',
+        'meta_description',
+    ];
 
     // Relationship with Location
+    // public function locations()
+    // {
+    //     return $this->belongsToMany(Location::class)->withPivot('address')->withTimestamps();
+    // }
     public function locations()
     {
-        return $this->belongsToMany(Location::class)->withPivot('address')->withTimestamps();
+        return $this->belongsToMany(Location::class, 'hospital_location')
+            ->withPivot('address'); // 👈 This is key!
+    }
+
+
+    public function chambers()
+    {
+        return $this->belongsToMany(Chamber::class, 'chamber_hospital')
+            ->withPivot('address')
+            ->withTimestamps();
     }
 }

@@ -21,30 +21,63 @@ class DoctorController extends Controller
             'locations' => $locations,
         ]);
     }
-
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:doctors',
-            'phone' => 'required',
-            'specialization_id' => 'required',
-            'hospital_id' => 'required',
-            'designation' => 'required',
-            'location_id' => 'required',
-            'chamber_name' => 'required',
-            'chamber_address' => 'required',
-            'photo' => 'nullable|image|max:2048',
+        // ✅ Step 1: Validate incoming request
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:doctors,email',
+            'phone' => 'required|string|max:20',
+            'hospital_id' => 'required|exists:hospitals,id',
+            'location_id' => 'required|exists:locations,id',
+            'specialization_id' => 'required|exists:specializations,id',
+            'designation' => 'required|string|max:255',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+
+            // Optional fields
+            'about' => 'nullable|string',
+            'meta_title' => 'nullable|string',
+            'meta_description' => 'nullable|string',
+            'preview_images.*' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'video_links' => 'nullable|array',
+            'video_links.*' => 'nullable|url',
         ]);
 
+        // ✅ Step 2: Handle file upload for photo
+        $photoPath = null;
         if ($request->hasFile('photo')) {
-            $data['photo'] = $request->file('photo')->store('doctor_photos', 'public');
+            $photoPath = $request->file('photo')->store('doctors/photos', 'public');
         }
 
-        Doctor::create($data);
+        // ✅ Step 3: Handle multiple preview images
+        $previewImagePaths = [];
+        if ($request->hasFile('preview_images')) {
+            foreach ($request->file('preview_images') as $image) {
+                $path = $image->store('doctors/previews', 'public');
+                $previewImagePaths[] = $path;
+            }
+        }
 
-        return redirect()->route('doctors.create')->with('success', 'Doctor added successfully.');
+        // ✅ Step 4: Store in the database
+        Doctor::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'phone' => $validated['phone'],
+            'hospital_id' => $validated['hospital_id'],
+            'location_id' => $validated['location_id'],
+            'specialization_id' => $validated['specialization_id'],
+            'designation' => $validated['designation'],
+            'photo' => $photoPath,
+            'about' => $validated['about'] ?? null,
+            'meta_title' => $validated['meta_title'] ?? null,
+            'meta_description' => $validated['meta_description'] ?? null,
+            'preview_images' => !empty($previewImagePaths) ? json_encode($previewImagePaths) : null,
+            'video_links' => isset($validated['video_links']) ? json_encode($validated['video_links']) : null,
+        ]);
+
+        return redirect()->back()->with('success', 'Doctor added successfully!');
     }
+
 
 
 

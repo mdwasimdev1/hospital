@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Models\location;
 use App\Models\Specialization;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class SpecializationController extends Controller
 {
@@ -33,6 +34,7 @@ class SpecializationController extends Controller
         // Store into database
         Specialization::create([
             'name' => $request->name,
+            'slug' => Str::slug($request->name),
             'location_id' => $request->location_id,
         ]);
 
