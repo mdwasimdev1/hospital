@@ -8,19 +8,25 @@ class Doctor extends Model
 {
     protected $fillable = [
         'name',
-        'email',
-        'phone',
+        'slug',
         'hospital_id',
+        'hospital_name',
         'location_id',
         'specialization_id',
+        'speciality',
         'designation',
+        'degree',
         'photo',
         'about',
         'meta_title',
         'meta_description',
         'preview_images',
         'video_links',
+        'position',
     ];
+
+   
+
 
 
 
@@ -32,12 +38,12 @@ class Doctor extends Model
 
     public function hospital()
     {
-        return $this->belongsTo(Hospital::class);
+        return $this->belongsTo(hospital::class);
     }
 
     public function location()
     {
-        return $this->belongsTo(Location::class);
+        return $this->belongsTo(location::class);
     }
 
     public function chambers()

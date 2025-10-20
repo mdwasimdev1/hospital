@@ -1,6 +1,9 @@
 @extends('layouts.sidebar')
 
 @section('content')
+    <button onclick="window.history.back()" class="bg-gray-300 text-black px-2 py-1 rounded">
+        ← Go Back
+    </button>
     <div class="max-w-xl mx-auto bg-white p-6 rounded shadow relative"> {{-- relative for dropdown positioning --}}
         <h2 class="text-2xl font-bold mb-4">Add Hospital</h2>
 
@@ -26,6 +29,17 @@
                 <input type="text" name="name" class="w-full border px-3 py-2 rounded" value="{{ old('name') }}"
                     required>
             </div>
+            <div class="mb-4">
+                <label class="block mb-1 font-semibold">Hospital Slug</label>
+                <input type="text" name="slug" class="w-full border px-3 py-2 rounded" value="{{ old('slug') }}"
+                    required>
+            </div>
+            <div class="mb-4">
+                <label class="block mb-1 font-semibold">Hospital Title</label>
+                <input type="text" name="title" class="w-full border px-3 py-2 rounded" value="{{ old('title') }}"
+                    required>
+            </div>
+
 
             <div class="mb-4">
                 <label class="block mb-1 font-semibold">Contact</label>

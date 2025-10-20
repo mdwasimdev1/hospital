@@ -66,7 +66,7 @@
                 <img class="w-90" src="{{ asset('storage/' . $doctor->photo) }}" alt="">
             </div>
             <div class="flex gap-2 w-full items-center justify-center mt-5">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/bwx2Z69S0YA?si=5QbYG8UCqBkIJXd2"
+                <iframe width="320" height="315" src="https://www.youtube.com/embed/bwx2Z69S0YA?si=5QbYG8UCqBkIJXd2"
                     title="YouTube video player" frameborder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>

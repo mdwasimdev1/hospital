@@ -29,7 +29,7 @@ return new class extends Migration
             $table->text('meta_title')->nullable();           // SEO title tag
             $table->text('meta_description')->nullable();     // SEO description tag
             $table->json('preview_images')->nullable();       // Store multiple image filenames/paths
-            $table->json('video_links')->nullable();          // Store multiple video URLs
+            $table->string('video_links')->nullable();          // Store multiple video URLs
 
             $table->timestamps();
         });

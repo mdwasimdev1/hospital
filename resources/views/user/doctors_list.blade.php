@@ -1,18 +1,23 @@
 @extends('layouts.navbar')
 
 @section('title')
-   Specialist Doctors in {{ $location->name }} for {{ $specialization->name }}
+    {{ $specialization->meta_title ?? $specialization->name }}
 @endsection
 
 @section('meta_description')
-    <meta name="description" content="Find doctors in {{ $location->name }} who specialize in {{ $specialization->name }}. Browse profiles, check availability, and book appointments.">
+    <meta name="description"
+        content="Find doctors in  who specialize in {{ $specialization->name }}. Browse profiles, check availability, and book appointments.">
 @endsection
 
 @section('content')
+
     <div class="bg-white shadow py-2 text-center mb-3 rounded-md">
-        <h2 class="text-xl font-bold">
-            Doctors in {{ $location->name }} for {{ $specialization->name }}
-        </h2>
+        <h2 class="text-base font-bold">
+            {{ $specialization->title }}</h2>
+    </div>
+    <div class="bg-white shadow py-2 text-center mb-3 rounded-md">
+        <h2 class="text-base text-justify p-5">
+            {{ $specialization->description }}
     </div>
 
 

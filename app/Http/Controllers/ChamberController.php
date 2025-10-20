@@ -30,35 +30,67 @@ class ChamberController extends Controller
 
 
     public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'location_id' => 'required|exists:locations,id',
-            'doctor_id' => 'required|exists:doctors,id',
-            'visiting_hour' => 'nullable|string',
-            'phone' => 'nullable|string',
-            'hospitals' => 'required|array',
-            'hospitals.*' => 'exists:hospitals,id',
-            'addresses' => 'required|array',
-            'addresses.*' => 'required|string',
-        ]);
-        $combinedAddress = implode(', ', $validated['addresses']);
-        // Create the chamber
-        $chamber = Chamber::create([
-            'location_id' => $validated['location_id'],
-            'doctor_id' => $validated['doctor_id'],
-            'visiting_hour' => $validated['visiting_hour'],
-            'phone' => $validated['phone'],
-            'address' => $combinedAddress,
-        ]);
+{
+    $validated = $request->validate([
+        'location_id' => 'required|exists:locations,id',
+        'doctor_id' => 'required|exists:doctors,id',
 
-        // Attach hospitals with address
-        foreach ($validated['hospitals'] as $hospitalId) {
-            $address = $validated['addresses'][$hospitalId] ?? null;
-            $chamber->hospitals()->attach($hospitalId, ['address' => $address]);
-        }
+        'hospitals' => 'required|array',
+        'hospitals.*' => 'exists:hospitals,id',
 
-        return back()->with('success', 'Chamber added successfully!');
+        'addresses' => 'required|array',
+        'addresses.*' => 'required|string',
+
+        'phones' => 'required|array',
+        'phones.*' => 'nullable|string',
+
+        'visiting_hours' => 'required|array',
+        'visiting_hours.*' => 'nullable|string',
+    ]);
+
+    // Just for Chamber's own table — optional global fields
+    $combinedAddress = implode(', ', $validated['addresses']);
+    $combinedPhone = implode(', ', array_filter($validated['phones']));
+    $combinedVisiting = implode(', ', array_filter($validated['visiting_hours']));
+
+    // Create Chamber
+    $chamber = Chamber::create([
+        'location_id' => $validated['location_id'],
+        'doctor_id' => $validated['doctor_id'],
+        'address' => $combinedAddress,
+        'phone' => $combinedPhone,
+        'visiting_hour' => $combinedVisiting,
+    ]);
+
+    // Attach each hospital with pivot data
+    foreach ($validated['hospitals'] as $hospitalId) {
+        $chamber->hospitals()->attach($hospitalId, [
+            'address' => $validated['addresses'][$hospitalId] ?? null,
+            'phone' => $validated['phones'][$hospitalId] ?? null,
+            'visiting_hour' => $validated['visiting_hours'][$hospitalId] ?? null,
+        ]);
     }
+
+    return back()->with('success', 'Chamber added successfully!');
+}
+
+
+
+
+
+    public function chambers_list()
+    {
+        $chambers = Chamber::with(['location', 'hospitals'])->paginate(10);
+        return view('backend.doctors.chamber_list', compact('chambers'));
+    }
+
+
+
+
+
+
+
+
     // public function getByLocation($location_id)
     // {
     //     $doctors = Doctor::where('location_id', $location_id)->get(['id', 'name']); // Only return needed fields

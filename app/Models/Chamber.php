@@ -17,15 +17,15 @@ class Chamber extends Model
 
     public function hospitals()
     {
-        return $this->belongsToMany(Hospital::class, 'chamber_hospital')
-            ->withPivot('address')
+        return $this->belongsToMany(hospital::class, 'chamber_hospital')
+            ->withPivot('address','phone', 'visiting_hour')
             ->withTimestamps();
     }
 
 
     public function location()
     {
-        return $this->belongsTo(Location::class);
+        return $this->belongsTo(location::class);
     }
     public function doctor()
     {

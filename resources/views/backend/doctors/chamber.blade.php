@@ -30,7 +30,6 @@
             </div>
 
             {{-- Doctor select --}}
-            {{-- Doctor select --}}
             <div class="mb-4">
                 <label for="doctor_id" class="block mb-2 font-medium text-gray-700">Select Doctor</label>
                 <select id="doctor_id" name="doctor_id"
@@ -43,15 +42,11 @@
             </div>
 
 
-
-
-
-
-
-            {{-- Location Multi Select --}}
+            {{-- Hospital Multi Select --}}
             <div class="relative w-full mt-6">
                 <label class="block text-gray-700 font-medium mb-2">Select Hospitals</label>
 
+                {{-- Selected Tags Box --}}
                 <div id="hospitalSelectedBox"
                     class="w-full flex flex-wrap items-center gap-2 border border-gray-300 rounded-lg px-3 py-2 cursor-pointer bg-white">
                     <span id="hospitalPlaceholder" class="text-gray-400">Select hospitals...</span>
@@ -62,21 +57,21 @@
                     class="hidden absolute mt-1 w-full bg-white border border-gray-300 rounded-lg shadow-lg z-10 max-h-48 overflow-y-auto">
                     @foreach ($hospitals as $hospital)
                         <div class="px-3 py-2 hover:bg-blue-100 cursor-pointer"
-                            onclick="selectLocation({{ $hospital->id }}, '{{ addslashes(str_replace("'", "\'", $hospital->name)) }}')">
+                            onclick="selectHospital({{ $hospital->id }}, '{{ addslashes($hospital->name) }}')">
                             {{ $hospital->name }}
                         </div>
                     @endforeach
                 </div>
 
-                {{-- Hidden inputs --}}
+                {{-- Hidden Inputs for hospital IDs --}}
                 <div id="hospitalHiddenInputs"></div>
             </div>
 
-            {{-- Address Fields --}}
+            {{-- Address + Phone + Visiting Hour Fields --}}
             <div id="hospitalAddressFields" class="space-y-4 mt-4"></div>
 
 
-            <div>
+            {{-- <div>
                 <label for="visiting_hour" class="block text-sm font-medium text-gray-700">Visiting Hour</label>
                 <input type="text" name="visiting_hour" id="visiting_hour" value="{{ old('visiting_hour') }}"
                     placeholder="e.g., Sat-Mon: 4PM - 8PM"
@@ -84,9 +79,9 @@
                 @error('visiting_hour')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
-            </div>
+            </div> --}}
 
-            <div>
+            {{-- <div>
                 <label for="phone" class="block text-sm font-medium text-gray-700">Phone</label>
                 <input type="text" name="phone" id="phone" value="{{ old('phone') }}"
                     class="w-full flex flex-wrap items-center gap-2 border border-gray-300 rounded-lg px-3 py-2 cursor-pointer bg-white"
@@ -95,7 +90,7 @@
                 @error('phone')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
-            </div>
+            </div> --}}
 
             <div>
                 <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-4 py-2 rounded">
@@ -104,7 +99,6 @@
             </div>
         </form>
     </div>
-
 
 
     <script>
@@ -116,31 +110,30 @@
 
         let selectedHospitals = [];
 
-        // Toggle dropdown on click
+        // Show/hide dropdown on click
         hospitalSelectedBox.addEventListener("click", () => {
             hospitalDropdown.classList.toggle("hidden");
         });
 
-        // Close dropdown if clicked outside
+        // Close dropdown when clicked outside
         document.addEventListener("click", (e) => {
             if (!hospitalSelectedBox.contains(e.target) && !hospitalDropdown.contains(e.target)) {
-                hopitalDropdown.classList.add("hidden");
+                hospitalDropdown.classList.add("hidden");
             }
         });
 
-        function selectLocation(id, name) {
-            if (selectedHospitals.find(l => l.id === id)) return; // Prevent duplicates
-            selectedHospitals.push({
-                id,
-                name
-            });
+        function selectHospital(id, name) {
+            // Prevent duplicate selection
+            if (selectedHospitals.find(h => h.id === id)) return;
+
+            selectedHospitals.push({ id, name });
             renderSelectedHospitals();
             renderHospitalHiddenInputs();
             renderHospitalAddressFields();
         }
 
         function removeHospital(id) {
-            selectedHospitals = selectedHospitals.filter(l => l.id !== id);
+            selectedHospitals = selectedHospitals.filter(h => h.id !== id);
             renderSelectedHospitals();
             renderHospitalHiddenInputs();
             renderHospitalAddressFields();
@@ -149,53 +142,73 @@
         function renderSelectedHospitals() {
             hospitalSelectedBox.innerHTML = "";
             if (selectedHospitals.length === 0) {
-                hospitalSelectedBox.innerHTML =
-                    `<span id="hospitalPlaceholder" class="text-gray-400">Select hospitals...</span>`;
+                hospitalSelectedBox.innerHTML = `<span id="hospitalPlaceholder" class="text-gray-400">Select hospitals...</span>`;
                 return;
             }
-            selectedHospitals.forEach(l => {
+
+            selectedHospitals.forEach(h => {
                 const tag = document.createElement("span");
                 tag.className = "bg-green-100 text-green-700 px-2 py-1 rounded-md text-sm flex items-center gap-1";
                 tag.innerHTML = `
-            ${l.name}
-            <button type="button" onclick="removeHospital(${l.id}); event.stopPropagation();">✕</button>
-        `;
+                    ${h.name}
+                    <button type="button" onclick="removeHospital(${h.id}); event.stopPropagation();">✕</button>
+                `;
                 hospitalSelectedBox.appendChild(tag);
             });
         }
 
         function renderHospitalHiddenInputs() {
             hospitalHiddenInputs.innerHTML = "";
-            selectedHospitals.forEach(l => {
+            selectedHospitals.forEach(h => {
                 const input = document.createElement("input");
                 input.type = "hidden";
                 input.name = "hospitals[]";
-                input.value = l.id;
+                input.value = h.id;
                 hospitalHiddenInputs.appendChild(input);
             });
         }
 
         function renderHospitalAddressFields() {
             hospitalAddressFields.innerHTML = "";
-            selectedHospitals.forEach(l => {
+            selectedHospitals.forEach(h => {
                 const wrapper = document.createElement("div");
-                wrapper.className = "flex flex-col gap-1";
+                wrapper.className = "border border-gray-300 rounded-lg p-4 bg-gray-50";
 
-                const label = document.createElement("label");
-                label.className = "text-gray-700 font-medium";
-                label.innerText = `Address for ${l.name}`;
-
-                const input = document.createElement("input");
-                input.type = "text";
-                input.name = `addresses[${l.id}]`;
-                input.placeholder = "Enter address for this hospital";
-                input.className = "border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-400";
-                input.required = true; // Required input
-
+                const label = document.createElement("h3");
+                label.className = "text-gray-700 font-semibold mb-2";
+                label.innerText = `Details for ${h.name}`;
                 wrapper.appendChild(label);
-                wrapper.appendChild(input);
+
+                // Address input
+                const addressInput = document.createElement("input");
+                addressInput.type = "text";
+                addressInput.name = `addresses[${h.id}]`;
+                addressInput.placeholder = "Enter address";
+                addressInput.className = "border border-gray-300 rounded-lg px-3 py-2 mb-2 w-full";
+                addressInput.required = true;
+                wrapper.appendChild(addressInput);
+
+                // Phone input
+                const phoneInput = document.createElement("input");
+                phoneInput.type = "text";
+                phoneInput.name = `phones[${h.id}]`;
+                phoneInput.placeholder = "Enter phone number";
+                phoneInput.className = "border border-gray-300 rounded-lg px-3 py-2 mb-2 w-full";
+                phoneInput.required = true;
+                wrapper.appendChild(phoneInput);
+
+                // Visiting Hour input
+                const visitingInput = document.createElement("input");
+                visitingInput.type = "text";
+                visitingInput.name = `visiting_hours[${h.id}]`;
+                visitingInput.placeholder = "Enter visiting hour";
+                visitingInput.className = "border border-gray-300 rounded-lg px-3 py-2 w-full";
+                visitingInput.required = true;
+                wrapper.appendChild(visitingInput);
+
                 hospitalAddressFields.appendChild(wrapper);
             });
         }
     </script>
+
 @endsection

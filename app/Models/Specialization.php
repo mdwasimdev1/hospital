@@ -8,11 +8,11 @@ class Specialization extends Model
 {
 
 
-    protected $fillable = ['name', 'slug', 'location_id'];
+    protected $fillable = ['name', 'slug', 'location_id', 'title', 'description', 'meta_title', 'meta_description'];
 
     public function location()
     {
-        return $this->belongsTo(Location::class);
+        return $this->belongsTo(location::class);
     }
 
     public function doctors()

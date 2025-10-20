@@ -13,6 +13,7 @@ class hospital extends Model
     protected $fillable = [
         'name',
         'slug',
+        'title',
         'address',
         'contact',
         'image',
@@ -27,7 +28,7 @@ class hospital extends Model
     // }
     public function locations()
     {
-        return $this->belongsToMany(Location::class, 'hospital_location')
+        return $this->belongsToMany(location::class, 'hospital_location')
             ->withPivot('address'); // 👈 This is key!
     }
 

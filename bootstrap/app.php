@@ -17,6 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'jwt.cookie' => \App\Http\Middleware\JwtCookieAuthenticate::class,
             'role' => \App\Http\Middleware\RoleMiddleware::class,
+            'breadcrumbs' => \App\Http\Middleware\TrackBreadcrumbs::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

@@ -47,14 +47,6 @@ class AuthController extends Controller
         );
 
         return redirect()->route('admin.dashboard')->withCookie($cookie);
-
-        // // Redirect by role
-        // $redirectTo = $user->role === 'admin'
-        //     ? route('admin.dashboard')
-        //     : route('user.dashboard');
-
-        // // Use cookie() method with response object explicitly
-        // return redirect($redirectTo)->withCookie($cookie);
     }
 
     public function logout(Request $request)
